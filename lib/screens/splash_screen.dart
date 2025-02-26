@@ -1,7 +1,8 @@
-// lib/screens/splash_screen.dart
+// lib/screens/home_screen.dart
 import 'package:flutter/material.dart';
 import '../utils/app_fonts.dart';
 import '../themes/app_themes.dart';
+import './explore.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -10,6 +11,15 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text(
+          'Aspen',
+          style: AppFonts.aspenTitleStyle(24),
+        ),
+      ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -19,49 +29,57 @@ class SplashScreen extends StatelessWidget {
         ),
         child: SafeArea(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              // Título centrado arriba
+              Padding(
+                padding: const EdgeInsets.all(32.0),
+                child: Text(
+                  'Aspen',
+                  style: AppFonts.aspenTitleStyle(80.0),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              
+              // Espacio flexible
               Expanded(
-                flex: 2,
                 child: Container(),
               ),
+              
+              // Subtítulo y botón
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 24.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'Aspen',
-                      style: AppFonts.aspenTitleStyle(48.0),
-                    ),
-                    SizedBox(height: 8.0),
-                    Text(
-                      'Your luxurious vacations',
+                      'Plan your',
                       style: AppFonts.subtitleStyle(24.0),
+                    ),
+                    Text(
+                      'Luxurious Vacation',
+                      style: AppFonts.subtitleStyle2(48.0),
+                    ),
+                    const SizedBox(height: 8.0),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const ExploreScreen()),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 40.0),
+                        child: Text(
+                          'Explore',
+                          style: AppFonts.botonInicio(18.0),
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
-              Expanded(
-                flex: 1,
-                child: Container(),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 24.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/home');
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: Text(
-                      'Explore',
-                      style: TextStyle(fontSize: 18.0),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 40.0),
             ],
           ),
         ),

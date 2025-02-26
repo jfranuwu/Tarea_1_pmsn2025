@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import '../utils/app_fonts.dart';
 import '../themes/app_themes.dart';
+import './explore.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -28,44 +29,44 @@ class HomeScreen extends StatelessWidget {
         ),
         child: SafeArea(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch, // Cambiado de start a stretch
             children: [
-              Expanded(
-                flex: 2,
-                child: Container(),
-              ),
+              // Título centrado arriba
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Aspen',
-                      style: AppFonts.aspenTitleStyle(48.0),
-                    ),
-                    SizedBox(height: 8.0),
-                    Text(
-                      'Your luxurious vacations',
-                      style: AppFonts.subtitleStyle(24.0),
-                    ),
-                  ],
+                padding: const EdgeInsets.all(32.0),
+                child: Text(
+                  'Aspen',
+                  style: AppFonts.aspenTitleStyle(48.0),
+                  textAlign: TextAlign.center,
                 ),
               ),
+              
+              // Subtítulo
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                child: Text(
+                  'Your luxurious vacations',
+                  style: AppFonts.subtitleStyle(24.0),
+                ),
+              ),
+              
+              // Espacio flexible
               Expanded(
-                flex: 1,
                 child: Container(),
               ),
+              
+              // Botón abajo
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 24.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    // Aquí podrías navegar a otra pantalla si lo deseas
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Botón Explore presionado')),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ExploreScreen()),
                     );
                   },
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 40.0),
                     child: Text(
                       'Explore',
                       style: AppFonts.botonInicio(18.0),
@@ -73,7 +74,6 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 40.0),
             ],
           ),
         ),

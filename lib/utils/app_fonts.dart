@@ -7,7 +7,7 @@ class AppFonts {
     return TextStyle(
       fontFamily: 'Hiatus',
       fontSize: fontSize,
-      fontWeight: FontWeight.w700,
+      fontWeight: FontWeight.w100,
       color: Colors.white,
     );
   }
@@ -17,6 +17,12 @@ class AppFonts {
       fontSize: fontSize,
       fontWeight: FontWeight.w400,
       color: Colors.white70,
+    );
+  }static TextStyle subtitleStyle2(double fontSize) {
+    return GoogleFonts.montserrat(
+      fontSize: fontSize,
+      fontWeight: FontWeight.w400,
+      color: Colors.white,
     );
   }
 

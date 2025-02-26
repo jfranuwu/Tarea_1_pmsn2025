@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'screens/splash_screen.dart';
 import 'screens/home_screen.dart';  // Nueva importación
 import 'themes/app_themes.dart';
+import 'screens/explore.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,7 +19,9 @@ class MyApp extends StatelessWidget {
       theme: AppThemes.lightTheme,
       home: SplashScreen(),
       routes: {
-        '/home': (context) => const HomeScreen(),
+       // '/home': (context) => const HomeScreen(),
+          '/explore': (context) => const ExploreScreen(),
+
       },
     );
   }
