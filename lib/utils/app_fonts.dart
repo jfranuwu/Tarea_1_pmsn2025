@@ -3,6 +3,15 @@ import 'package:flutter/material.dart';  // Importante: Esta línea era la que f
 import 'package:google_fonts/google_fonts.dart';
 
 class AppFonts {
+  static TextStyle subtitleWithColorNFontsize(double fontSize, Color color, FontWeight fontweight){
+    return GoogleFonts.montserrat(
+    fontSize: fontSize,
+    color: color,      
+    fontWeight: fontweight
+    );
+  }
+
+
   static TextStyle aspenTitleStyle(double fontSize) {
     return TextStyle(
       fontFamily: 'Hiatus',

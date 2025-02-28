@@ -3,12 +3,13 @@ description: "A new Flutter project."
 publish_to: 'none'
 version: 1.0.0+1
 environment:
-  sdk: ^3.7.0
+  sdk: ">=3.7.0 <4.0.0"
 dependencies:
   flutter:
     sdk: flutter
   google_fonts: ^6.2.1
   cupertino_icons: ^1.0.8
+  country_flags: ^3.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -22,3 +23,7 @@ flutter:
         - asset: fonts/Hiatus-Regular.otf
   assets:
     - assets/images/wallpaper.jpg
+    - assets/images/Rectangle988.png
+    - assets/images/down-arrow.png
+    - assets/images/tone.png
+    - assets/images/Search.png

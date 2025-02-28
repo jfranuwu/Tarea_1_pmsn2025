@@ -23,7 +23,7 @@ class SplashScreen extends StatelessWidget {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/wallpaper.jpg'),
+            image: AssetImage('assets/images/Rectangle988.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -31,7 +31,6 @@ class SplashScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Título centrado arriba
               Padding(
                 padding: const EdgeInsets.all(32.0),
                 child: Text(
@@ -41,12 +40,10 @@ class SplashScreen extends StatelessWidget {
                 ),
               ),
               
-              // Espacio flexible
               Expanded(
                 child: Container(),
               ),
               
-              // Subtítulo y botón
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 24.0),
                 child: Column(
