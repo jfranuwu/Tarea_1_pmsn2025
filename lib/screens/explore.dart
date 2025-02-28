@@ -16,12 +16,18 @@ class _ExploreScreenState extends State<ExploreScreen> {
   String? _selectedCountry;
   String? _selectedCategory;
   final TextEditingController _searchController = TextEditingController();
+  final List<String> _imagePaths = [
+    'assets/images2/location1.png',
+    'assets/images2/location2.png'
+  ];
+  final Map<String, bool> _isExpanded = {};
 
   @override
   void initState() {
     super.initState();
     _selectedCountry = 'MX';
-    _selectedCategory = 'Location'; // Categoría seleccionada por defecto
+    _selectedCategory = 'Location';
+    _imagePaths.forEach((path) => _isExpanded[path] = false);
   }
 
   @override
@@ -157,17 +163,17 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: _selectedCategory == category 
-                            ? Colors.grey[200] 
+                        backgroundColor: _selectedCategory == category
+                            ? Colors.grey[200]
                             : Colors.white,
-                        foregroundColor: _selectedCategory == category 
-                            ? AppColors.primary 
+                        foregroundColor: _selectedCategory == category
+                            ? AppColors.primary
                             : Colors.grey,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                           side: BorderSide(
-                            color: _selectedCategory == category 
-                                ? AppColors.primary 
+                            color: _selectedCategory == category
+                                ? AppColors.primary
                                 : Colors.transparent,
                           ),
                         ),
@@ -179,40 +185,133 @@ class _ExploreScreenState extends State<ExploreScreen> {
               ),
             ),
           ),
-          Expanded(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    '¡Bienvenido a la sección de exploración!',
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Popular',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => PopularScreen()),
+                    );
+                  },
+                  child: Text(
+                    'See all',
                     style: TextStyle(
-                      fontFamily: 'Hiatus',
-                      fontSize: 24,
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline,
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    ),
-                    child: const Text(
-                      'Volver',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
+          // ... (tu código existente hasta el método build)
+
+Expanded(
+  child: SingleChildScrollView(
+    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+    child: Wrap(
+      spacing: 16,
+      runSpacing: 16,
+      children: _imagePaths.map((path) {
+        return GestureDetector(
+          onTap: () {
+            setState(() {
+              // Primero reiniciar todas las imágenes
+              for (var imgPath in _imagePaths) {
+                if (imgPath != path) {
+                  _isExpanded[imgPath] = false;
+                }
+              }
+              
+              // Luego manejar la imagen clickeada
+              if (!_isExpanded[path]!) {
+                _isExpanded[path] = true;
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LocationDetailsScreen(
+                      imagePath: path,
+                    ),
+                  ),
+                );
+              }
+            });
+          },
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            width: (MediaQuery.of(context).size.width - 48) / 2,
+            height: 200,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              image: DecorationImage(
+                image: AssetImage(path),
+                fit: BoxFit.cover,
+              ),
+            ),
+            transform: Matrix4.identity()
+              ..scale(_isExpanded[path]! ? 1.1 : 1.0),
+            transformAlignment: Alignment.center,
+          ),
+        );
+      }).toList(),
+    ),
+  ),
+),
         ],
+      ),
+    );
+  }
+}
+
+class LocationDetailsScreen extends StatelessWidget {
+  final String imagePath;
+
+  const LocationDetailsScreen({
+    Key? key,
+    required this.imagePath,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Location Details'),
+      ),
+      body: Center(
+        child: InteractiveViewer(
+          minScale: 1.0,
+          maxScale: 2.0,
+          child: Image.asset(
+            imagePath,
+            fit: BoxFit.contain,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class PopularScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Popular'),
+      ),
+      body: Center(
+        child: Text('Contenido Popular'),
       ),
     );
   }
