@@ -4,6 +4,7 @@ import 'package:country_flags/country_flags.dart';
 import '../utils/app_fonts.dart';
 import '../themes/app_colors.dart';
 import '../themes/app_themes.dart';
+import '../screens/details.dart';
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({Key? key}) : super(key: key);
@@ -215,7 +216,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
               ],
             ),
           ),
-          // ... (tu código existente hasta el método build)
+        
 
 Expanded(
   child: SingleChildScrollView(
@@ -275,33 +276,7 @@ Expanded(
   }
 }
 
-class LocationDetailsScreen extends StatelessWidget {
-  final String imagePath;
 
-  const LocationDetailsScreen({
-    Key? key,
-    required this.imagePath,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Location Details'),
-      ),
-      body: Center(
-        child: InteractiveViewer(
-          minScale: 1.0,
-          maxScale: 2.0,
-          child: Image.asset(
-            imagePath,
-            fit: BoxFit.contain,
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 class PopularScreen extends StatelessWidget {
   @override
