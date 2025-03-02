@@ -22,6 +22,7 @@ class AppColors {
   static const Color success = Color(0xFF4CAF50);
   static const Color error = Color(0xFFE57373);
   static const Color warning = Color(0xFFFF9800);
+  static const Color star = Color(0xFFF8D675);
 
   // Colores de gradiente
   static const List<Color> gradientColors = [

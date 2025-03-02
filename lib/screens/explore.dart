@@ -1,4 +1,3 @@
-// lib/screens/explore.dart
 import 'package:flutter/material.dart';
 import 'package:country_flags/country_flags.dart';
 import '../utils/app_fonts.dart';
@@ -216,67 +215,109 @@ class _ExploreScreenState extends State<ExploreScreen> {
               ],
             ),
           ),
-        
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Wrap(
+                spacing: 16,
+                runSpacing: 16,
+                children: _imagePaths.map((path) {
+                  // Obtener la calificación basada en el path de la imagen
+                  double rating = path.contains('location1') ? 4.5 : 5.0;
 
-Expanded(
-  child: SingleChildScrollView(
-    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-    child: Wrap(
-      spacing: 16,
-      runSpacing: 16,
-      children: _imagePaths.map((path) {
-        return GestureDetector(
-          onTap: () {
-            setState(() {
-              // Primero reiniciar todas las imágenes
-              for (var imgPath in _imagePaths) {
-                if (imgPath != path) {
-                  _isExpanded[imgPath] = false;
-                }
-              }
-              
-              // Luego manejar la imagen clickeada
-              if (!_isExpanded[path]!) {
-                _isExpanded[path] = true;
-              } else {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LocationDetailsScreen(
-                      imagePath: path,
-                    ),
-                  ),
-                );
-              }
-            });
-          },
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            width: (MediaQuery.of(context).size.width - 48) / 2,
-            height: 200,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              image: DecorationImage(
-                image: AssetImage(path),
-                fit: BoxFit.cover,
-              ),
-            ),
-            transform: Matrix4.identity()
-              ..scale(_isExpanded[path]! ? 1.1 : 1.0),
-            transformAlignment: Alignment.center,
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        // Primero reiniciar todas las imágenes
+                        for (var imgPath in _imagePaths) {
+                          if (imgPath != path) {
+                            _isExpanded[imgPath] = false;
+                          }
+                        }
+                        // Luego manejar la imagen clickeada
+                        if (!_isExpanded[path]!) {
+                          _isExpanded[path] = true;
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LocationDetailsScreen(
+                                imagePath: path,
+                              ),
+                            ),
+                          );
+                        }
+                      });
+                    },
+                    child: Stack(
+                      children: [
+                        AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
+                          width: (MediaQuery.of(context).size.width - 48) / 2,
+                          height: 200,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            image: DecorationImage(
+                              image: AssetImage(path),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          transform: Matrix4.identity()
+                            ..scale(_isExpanded[path]! ? 1.1 : 1.0),
+                          transformAlignment: Alignment.center,
+                        ),
+                        Positioned(
+  left: 12,
+  bottom: 12,
+  child: Row(
+    children: [
+      Stack(
+        alignment: Alignment.center,
+        children: [
+          Image.asset(
+            'assets/images2/shape_star.png',
+            width: 16,
+            height: 16,
+            color: AppColors.star,
           ),
-        );
-      }).toList(),
-    ),
+          Image.asset(
+            'assets/images2/tone_star.png',
+            width: 16,
+            height: 16,
+            color: AppColors.star,
+          ),
+        ],
+      ),
+      const SizedBox(width: 4),
+      Text(
+        rating.toString(),
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
+          shadows: [
+            Shadow(
+              offset: Offset(1, 1),
+              color: Colors.black.withOpacity(0.5),
+            ),
+          ],
+        ),
+      ),
+    ],
   ),
 ),
+                      ],
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 }
-
-
 
 class PopularScreen extends StatelessWidget {
   @override
