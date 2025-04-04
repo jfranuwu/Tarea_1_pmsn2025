@@ -15,6 +15,7 @@ class LocationDetailsScreen extends StatefulWidget {
 
 class _LocationDetailsScreenState extends State<LocationDetailsScreen> {
   bool _expanded = false;
+  bool _isFavorite = false; // Variable para controlar el estado del favorito
 
   // Método para obtener el título basado en la ruta de la imagen
   String _getTitle() {
@@ -76,6 +77,33 @@ class _LocationDetailsScreenState extends State<LocationDetailsScreen> {
                       child: IconButton(
                         icon: Icon(Icons.arrow_back, color: Colors.black45),
                         onPressed: () => Navigator.of(context).pop(),
+                      ),
+                    ),
+                  ),
+                  // Botón de favorito (corazón)
+                  Positioned(
+                    bottom: 30,
+                    right: 40,
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _isFavorite = !_isFavorite; // Toggle del estado de favorito
+                        });
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white70,
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: Image.asset(
+                          _isFavorite 
+                            ? 'assets/images2/heart.png' // Corazón lleno
+                            : 'assets/images2/heart.png', // Usa el mismo archivo pero aplicamos opacidad
+                          width: 24,
+                          height: 24,
+                          color: _isFavorite ? Colors.red : Colors.red.withOpacity(0.5),
+                        ),
                       ),
                     ),
                   ),
