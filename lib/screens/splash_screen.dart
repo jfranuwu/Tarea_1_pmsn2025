@@ -1,11 +1,10 @@
 // lib/screens/home_screen.dart
 import 'package:flutter/material.dart';
 import '../utils/app_fonts.dart';
-import '../themes/app_themes.dart';
 import './explore.dart';
 
 class SplashScreen extends StatelessWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +15,7 @@ class SplashScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
-          'Aspen',
+          '',
           style: AppFonts.aspenTitleStyle(24),
         ),
       ),
@@ -35,7 +34,7 @@ class SplashScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(32.0),
                 child: Text(
                   'Aspen',
-                  style: AppFonts.aspenTitleStyle(80.0),
+                  style: AppFonts.aspenTitleStyle(100.0),
                   textAlign: TextAlign.center,
                 ),
               ),
