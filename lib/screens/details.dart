@@ -1,4 +1,3 @@
-// lib/screens/details.dart
 import 'package:flutter/material.dart';
 import '../themes/app_colors.dart';
 
@@ -29,104 +28,108 @@ class LocationDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          LayoutBuilder(
-            builder: (context, constraints) {
-              return Container(
-                width: double.infinity,
-                height: constraints.maxHeight / 2,
-                margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: InteractiveViewer(
-                    minScale: 1.0,
-                    maxScale: 3.0,
-                    child: Image.asset(
-                      imagePath,
-                      fit: BoxFit.cover,
-                      alignment: Alignment.center,
-                      width: double.infinity,
-                      height: double.infinity,
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Parte superior con la imagen y botón de retroceso
+            Stack(
+              children: [
+                // Imagen
+                Container(
+                  width: double.infinity,
+                  height: MediaQuery.of(context).size.height / 2,
+                  margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: InteractiveViewer(
+                      minScale: 1.0,
+                      maxScale: 3.0,
+                      child: Image.asset(
+                        imagePath,
+                        fit: BoxFit.cover,
+                        alignment: Alignment.center,
+                        width: double.infinity,
+                        height: double.infinity,
+                      ),
                     ),
                   ),
                 ),
-              );
-            },
-          ),
-          // Botón de retroceso personalizado
-          Positioned(
-            top: 40,
-            left: 20,
-            child: SafeArea(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white70, 
-                  borderRadius: BorderRadius.circular(10),
+                // Botón de retroceso
+                Positioned(
+                  top: 20,
+                  left: 20,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white70,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: IconButton(
+                      icon: Icon(Icons.arrow_back, color: Colors.black45),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ),
                 ),
-                child: IconButton(
-                  icon: Icon(Icons.arrow_back, color: Colors.black45),
-                  onPressed: () => Navigator.of(context).pop(),
+              ],
+            ),
+            
+            // Título (sobre fondo blanco)
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30),
+              child: Text(
+                _getTitle(),
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-          ),
-          // Título y calificación
-          Positioned(
-            bottom: 40,
-            left: 50,
-            right: 50,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              decoration: BoxDecoration(
-                color: Colors.black54,
-                borderRadius: BorderRadius.circular(12),
-              ),
+            
+            // Espacio entre título y calificación
+            SizedBox(height: 8),
+            
+            // Calificación con estrellas y número de reviews
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    _getTitle(),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Row(
+                  Stack(
+                    alignment: Alignment.center,
                     children: [
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images2/shape_star.png',
-                            width: 16,
-                            height: 16,
-                            color: AppColors.star,
-                          ),
-                          Image.asset(
-                            'assets/images2/tone_star.png',
-                            width: 16,
-                            height: 16,
-                            color: AppColors.star,
-                          ),
-                        ],
+                      Image.asset(
+                        'assets/images2/shape_star.png',
+                        width: 18,
+                        height: 18,
+                        color: AppColors.star,
                       ),
-                      SizedBox(width: 4),
-                      Text(
-                        _getRating().toString(),
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
+                      Image.asset(
+                        'assets/images2/tone_star.png',
+                        width: 18,
+                        height: 18,
+                        color: AppColors.star,
                       ),
                     ],
+                  ),
+                  SizedBox(width: 6),
+                  Text(
+                    "${_getRating()} (355 reviews)",
+                    style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 16,
+                    ),
                   ),
                 ],
               ),
             ),
-          ),
-        ],
+            
+            // Espacio para más contenido si es necesario
+            Expanded(
+              child: Container(),
+            ),
+          ],
+        ),
       ),
     );
   }
