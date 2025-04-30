@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import '../themes/app_colors.dart';
 import '../screens/paid.dart';
+import 'dart:ui';
 
 class LocationDetailsScreen extends StatefulWidget {
   final String imagePath;
@@ -47,22 +47,33 @@ class _LocationDetailsScreenState extends State<LocationDetailsScreen> {
               // Parte superior con la imagen y botón de retroceso
               Stack(
                 children: [
-                  // Imagen
+                  // Imagen mejorada
                   Container(
                     width: double.infinity,
-                    height: MediaQuery.of(context).size.height / 2,
-                    margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                    height: MediaQuery.of(context).size.height * 0.45,
+                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 10,
+                          spreadRadius: 1,
+                        ),
+                      ],
+                    ),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(20),
                       child: InteractiveViewer(
-                        minScale: 1.0,
-                        maxScale: 3.0,
-                        child: Image.asset(
-                          widget.imagePath,
-                          fit: BoxFit.cover,
-                          alignment: Alignment.center,
-                          width: double.infinity,
-                          height: double.infinity,
+                        minScale: 0.8,
+                        maxScale: 4.0,
+                        child: Hero(
+                          tag: widget.imagePath,
+                          child: Image.asset(
+                            widget.imagePath,
+                            fit: BoxFit.cover,
+                            alignment: Alignment.center,
+                          ),
                         ),
                       ),
                     ),
@@ -84,8 +95,8 @@ class _LocationDetailsScreenState extends State<LocationDetailsScreen> {
                   ),
                   // CORRECCIÓN: Botón de favorito (corazón) usando iconos integrados
                   Positioned(
-                    bottom: 30,
-                    right: 40,
+                    top: 20,
+                    right: 25,
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
@@ -93,10 +104,17 @@ class _LocationDetailsScreenState extends State<LocationDetailsScreen> {
                         });
                       },
                       child: Container(
-                        padding: EdgeInsets.all(8),
+                        padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: Colors.white70,
-                          borderRadius: BorderRadius.circular(25),
+                          color: Colors.white.withOpacity(0.9),
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 5,
+                              spreadRadius: 1,
+                            ),
+                          ],
                         ),
                         child: Icon(
                           _isFavorite 
@@ -299,13 +317,25 @@ class _LocationDetailsScreenState extends State<LocationDetailsScreen> {
               // Espacio entre facilities y precio
               SizedBox(height: 24),
               
-              // Sección de Precio y botón Book Now
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30),
+              // Sección de Precio y botón Book Now mejorada
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                padding: EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade50,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 10,
+                      spreadRadius: 1,
+                    ),
+                  ],
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // Columna de precio
+                    // Columna de precio mejorada
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -318,18 +348,29 @@ class _LocationDetailsScreenState extends State<LocationDetailsScreen> {
                           ),
                         ),
                         SizedBox(height: 4),
-                        Text(
-                          "\$199",
-                          style: TextStyle(
-                            color: Colors.green,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Row(
+                          children: [
+                            Text(
+                              "\$199",
+                              style: TextStyle(
+                                color: Colors.green.shade700,
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              " /night",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                     
-                    // Botón Book Now
+                    // Botón Book Now mejorado
                     ElevatedButton(
                       onPressed: () {
                         // Navegar a la pantalla de pagos cuando se hace clic en "Book Now"
@@ -346,7 +387,8 @@ class _LocationDetailsScreenState extends State<LocationDetailsScreen> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
                         foregroundColor: Colors.white,
-                        padding: EdgeInsets.symmetric(horizontal: 36, vertical: 16),
+                        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                        elevation: 2,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -376,19 +418,27 @@ class _LocationDetailsScreenState extends State<LocationDetailsScreen> {
   Widget _buildFacilityItem(String imagePath, String label) {
     return Column(
       children: [
-        // Icono con fondo gris circular
+        // Icono con fondo gris circular mejorado
         Container(
           width: 70,
           height: 70,
           decoration: BoxDecoration(
             color: Colors.grey.shade200,
             borderRadius: BorderRadius.circular(15),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 4,
+                offset: Offset(0, 2),
+              ),
+            ],
           ),
           child: Center(
             child: Image.asset(
               imagePath,
               width: 35,
               height: 35,
+              fit: BoxFit.contain,
             ),
           ),
         ),
@@ -402,6 +452,7 @@ class _LocationDetailsScreenState extends State<LocationDetailsScreen> {
           style: TextStyle(
             color: Colors.black87,
             fontSize: 14,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ],
