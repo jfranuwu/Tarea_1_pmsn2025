@@ -350,7 +350,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                 ],
                               ),
                             ),
-                            // Nuevo botón de favorito añadido aquí
+                            // CORRECCIÓN: Botón de favorito ahora usa los iconos integrados de Flutter
                             Positioned(
                               right: 12,
                               bottom: 12,
@@ -368,10 +368,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                     shape: BoxShape.circle,
                                   ),
                                   child: Center(
-                                    child: Image.asset(
-                                      'assets/images2/heart.png',
-                                      width: 20,
-                                      height: 20,
+                                    child: Icon(
+                                      _isFavorite[path]! 
+                                          ? Icons.favorite  // Icono de corazón lleno
+                                          : Icons.favorite_border,  // Icono de corazón vacío
+                                      size: 20,
                                       color: _isFavorite[path]! 
                                           ? AppColors.accent 
                                           : Colors.grey,
@@ -480,7 +481,37 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                   ),
                                 ),
                               ),
-                        
+                            // CORRECCIÓN: Añadir botón de favorito a las tarjetas recomendadas
+                            Positioned(
+                              right: 12,
+                              top: 12,
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _isFavorite[path] = !_isFavorite[path]!;
+                                  });
+                                },
+                                child: Container(
+                                  width: 32,
+                                  height: 32,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.7),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Center(
+                                    child: Icon(
+                                      _isFavorite[path]! 
+                                          ? Icons.favorite  // Icono de corazón lleno
+                                          : Icons.favorite_border,  // Icono de corazón vacío
+                                      size: 20,
+                                      color: _isFavorite[path]! 
+                                          ? AppColors.accent 
+                                          : Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       );
@@ -521,6 +552,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
     );
   }
 }
+
 class PopularScreen extends StatelessWidget {
   const PopularScreen({super.key});
 

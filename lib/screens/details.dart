@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import '../themes/app_colors.dart';
 import '../screens/paid.dart';
@@ -81,7 +82,7 @@ class _LocationDetailsScreenState extends State<LocationDetailsScreen> {
                       ),
                     ),
                   ),
-                  // Botón de favorito (corazón)
+                  // CORRECCIÓN: Botón de favorito (corazón) usando iconos integrados
                   Positioned(
                     bottom: 30,
                     right: 40,
@@ -97,13 +98,12 @@ class _LocationDetailsScreenState extends State<LocationDetailsScreen> {
                           color: Colors.white70,
                           borderRadius: BorderRadius.circular(25),
                         ),
-                        child: Image.asset(
+                        child: Icon(
                           _isFavorite 
-                            ? 'assets/images2/heart.png' // Corazón lleno
-                            : 'assets/images2/heart.png', // Usa el mismo archivo pero aplicamos opacidad
-                          width: 24,
-                          height: 24,
-                          color: _isFavorite ? Colors.red : Colors.red.withOpacity(0.5),
+                            ? Icons.favorite  // Icono de corazón lleno
+                            : Icons.favorite_border,  // Icono de corazón vacío
+                          size: 24,
+                          color: Colors.red,
                         ),
                       ),
                     ),
@@ -337,8 +337,8 @@ class _LocationDetailsScreenState extends State<LocationDetailsScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => PaymentScreen(
-                              destinationName: "París", // Valor estático de ejemplo
-                              price: 1299.99, // Valor estático de ejemplo
+                              destinationName: _getTitle(), // Usar el título real del destino
+                              price: 199.99, // Se podría usar un valor real basado en el destino
                             ),
                           ),
                         );
