@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../themes/app_colors.dart';
+import '../screens/paid.dart';
 
 class LocationDetailsScreen extends StatefulWidget {
   final String imagePath;
@@ -331,8 +332,16 @@ class _LocationDetailsScreenState extends State<LocationDetailsScreen> {
                     // Botón Book Now
                     ElevatedButton(
                       onPressed: () {
-                        // Acción cuando se hace clic en "Book Now"
-                        print('Book Now clicked');
+                        // Navegar a la pantalla de pagos cuando se hace clic en "Book Now"
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PaymentScreen(
+                              destinationName: "París", // Valor estático de ejemplo
+                              price: 1299.99, // Valor estático de ejemplo
+                            ),
+                          ),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
