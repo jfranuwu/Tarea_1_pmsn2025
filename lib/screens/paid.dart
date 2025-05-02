@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../utils/app_fonts.dart';
 
 class PaymentScreen extends StatefulWidget {
   final String destinationName;
@@ -72,6 +73,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
             decoration: const InputDecoration(
               labelText: 'Nombre en la tarjeta',
               border: OutlineInputBorder(),
+              filled: true,
+              fillColor: Colors.white,
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -86,6 +89,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
             decoration: const InputDecoration(
               labelText: 'Número de tarjeta',
               border: OutlineInputBorder(),
+              filled: true,
+              fillColor: Colors.white,
             ),
             keyboardType: TextInputType.number,
             validator: (value) {
@@ -106,6 +111,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   decoration: const InputDecoration(
                     labelText: 'Fecha de expiración (MM/AA)',
                     border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.white,
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -122,6 +129,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   decoration: const InputDecoration(
                     labelText: 'CVV',
                     border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.white,
                   ),
                   keyboardType: TextInputType.number,
                   obscureText: true,
@@ -143,9 +152,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   Widget _buildPayPalForm() {
-    return const Center(
-      child: Padding(
-        padding: EdgeInsets.all(16.0),
+    return Container(
+      padding: const EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: const Center(
         child: Text(
           'Serás redirigido a PayPal para completar el pago',
           style: TextStyle(fontSize: 16),
@@ -156,8 +170,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   Widget _buildBankTransferForm() {
-    return Padding(
+    return Container(
       padding: const EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: const [
@@ -195,14 +214,22 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Obtén el color de fondo del tema o usa uno predeterminado
+    final backgroundColor = Colors.white;
+    
     return Scaffold(
+      backgroundColor: Colors.white, // Asegura que el fondo sea consistente
       appBar: AppBar(
         title: const Text('Opciones de Pago'),
         elevation: 0,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor ?? 
+                          Theme.of(context).colorScheme.surface,
       ),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
+      body: Container(
+        // Contenedor para toda la pantalla con color de fondo explícito
+        color: backgroundColor,
+        child: SafeArea(
+          child: SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -212,7 +239,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   width: double.infinity,
                   padding: const EdgeInsets.all(16.0),
                   decoration: BoxDecoration(
-                    color: Colors.blue.shade50,
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
@@ -235,10 +262,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       const SizedBox(height: 8),
                       Text(
                         'Precio total: \$${widget.price.toStringAsFixed(2)}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Colors.blue,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
                     ],
@@ -248,11 +275,18 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 const SizedBox(height: 24),
                 
                 // Métodos de pago
-                const Text(
-                  'Selecciona tu método de pago:',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Text(
+                    'Selecciona tu método de pago:',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -262,6 +296,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(color: Colors.grey.shade300),
+                    color: Colors.white,
                   ),
                   child: Column(
                     children: _paymentMethods.asMap().entries.map((entry) {
@@ -278,6 +313,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           });
                         },
                         secondary: Icon(_getPaymentIcon(index)),
+                        activeColor: Theme.of(context).colorScheme.primary,
                       );
                     }).toList(),
                   ),
@@ -290,42 +326,48 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 
                 const SizedBox(height: 32),
                 
-                // Botón de pago
-                SizedBox(
-                  width: double.infinity,
-                  height: 50,
+                
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
                   child: ElevatedButton(
                     onPressed: _isLoading ? null : _processPayment,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
+                      padding: EdgeInsets.zero, // Quitar padding interno del botón
                     ),
-                    child: _isLoading
-                        ? const CircularProgressIndicator(color: Colors.white)
-                        : const Text(
-                            'Procesar Pago',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                    child: Container(
+                      width: double.infinity,
+                      constraints: const BoxConstraints(minHeight: 50),
+                      child: _isLoading
+                          ? const Center(
+                              child: SizedBox(
+                                height: 24,
+                                width: 24,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2.0,
+                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                ),
+                              ),
+                            )
+                          : Center(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                child: Text(
+                                  'Procesar Pago',
+                                  style: AppFonts.botonInicio(18.0),
+                                ),
+                              ),
                             ),
-                          ),
+                    ),
                   ),
-                ),
-                
-                const SizedBox(height: 24),
+                )
               ],
             ),
           ),
-          if (_isLoading)
-            Container(
-              color: Colors.black.withOpacity(0.3),
-              child: const Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
-        ],
+        ),
       ),
     );
   }
