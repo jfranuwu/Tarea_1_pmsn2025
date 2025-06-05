@@ -196,7 +196,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           ),
         ],
       ),
-    );
+    );{}
   }
 
   Widget _buildPaymentForm() {
