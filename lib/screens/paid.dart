@@ -35,7 +35,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   void _processPayment() {
-    if (_formKey.currentState!.validate()) {
+    // Validar solo si es tarjeta de crédito (requiere formulario)
+    bool isFormValid = true;
+    if (_selectedPaymentMethod == 0) {
+      isFormValid = _formKey.currentState!.validate();
+    }
+
+    if (isFormValid) {
       setState(() {
         _isLoading = true;
       });
@@ -46,20 +52,103 @@ class _PaymentScreenState extends State<PaymentScreen> {
           _isLoading = false;
         });
         
-        // Mostrar confirmación exitosa
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('¡Pago procesado exitosamente!'),
-            backgroundColor: Colors.green,
-          ),
-        );
-        
-        // Regresar a la pantalla anterior después de un momento
-        Future.delayed(const Duration(seconds: 1), () {
-          Navigator.pop(context);
-        });
+        // Mostrar diálogo de confirmación exitosa
+        _showSuccessDialog();
       });
     }
+  }
+
+  void _showSuccessDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Icono de éxito
+              Container(
+                width: 80,
+                height: 80,
+                decoration: const BoxDecoration(
+                  color: Colors.green,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.check,
+                  color: Colors.white,
+                  size: 50,
+                ),
+              ),
+              const SizedBox(height: 20),
+              
+              // Título
+              const Text(
+                '¡Pago Exitoso!',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 12),
+              
+              // Mensaje
+              Text(
+                'Tu pago de \$${widget.price.toStringAsFixed(2)} para ${widget.destinationName} ha sido procesado correctamente.',
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+              
+              // Método de pago usado
+              Text(
+                'Método: ${_paymentMethods[_selectedPaymentMethod]}',
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+          actions: [
+            Container(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Cerrar diálogo
+                  Navigator.of(context).pop(); // Regresar a pantalla anterior
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                ),
+                child: const Text(
+                  'Continuar',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Widget _buildCreditCardForm() {
@@ -196,7 +285,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           ),
         ],
       ),
-    );{}
+    );
   }
 
   Widget _buildPaymentForm() {
@@ -214,11 +303,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Obtén el color de fondo del tema o usa uno predeterminado
     final backgroundColor = Colors.white;
     
     return Scaffold(
-      backgroundColor: Colors.white, // Asegura que el fondo sea consistente
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Opciones de Pago'),
         elevation: 0,
@@ -226,7 +314,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           Theme.of(context).colorScheme.surface,
       ),
       body: Container(
-        // Contenedor para toda la pantalla con color de fondo explícito
         color: backgroundColor,
         child: SafeArea(
           child: SingleChildScrollView(
@@ -326,7 +413,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 
                 const SizedBox(height: 32),
                 
-                
+                // Botón de pago
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
                   child: ElevatedButton(
@@ -336,7 +423,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      padding: EdgeInsets.zero, // Quitar padding interno del botón
+                      padding: EdgeInsets.zero,
                     ),
                     child: Container(
                       width: double.infinity,
